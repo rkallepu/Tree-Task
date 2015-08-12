@@ -1,0 +1,104 @@
+<!Doctype html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="bower_components/angular/angular.js"></script>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <style>
+        #instructions{
+            background-color: lightgrey;
+            padding: 10px;
+            margin: 10px 0px;
+            font-style: oblique
+        }
+        #mainController{
+            padding: 10px;
+        }
+        #nodeTree{
+            border-top: solid gray;
+            padding: 15px;
+        }
+        #newNodeInput{
+            margin-left: 25px;
+        }
+    </style>
+    <script>
+        angular.module('myApp',[]).controller('MyController', function ($scope){
+            //$scope.symbol = '+';
+            $scope.hideInputBox = true;
+            $scope.addNode = false;
+            $scope.collapseNode = true;
+            $scope.showInputBoxes = true;
+            /*if($scope.showInputBoxes){
+                $scope.hideInputBox = false;
+            }*/
+            $scope.addNewNode = function (){
+                $scope.addNode = true;
+                $scope.collapseNode = false;
+                $scope.hideInputBox = false;
+                /*if($scope.symbol === '+'){
+                    $scope.symbol = '-';
+                    $scope.hideInputBoxes = false;
+                }else{
+                    $scope.symbol = '+';
+                    $scope.hideInputBoxes = true;
+                }*/
+            };
+            $scope.collapseNodes = function () {
+                $scope.addNode = false;
+                $scope.collapseNode = true;
+                $scope.hideInputBoxes = true;
+            };
+            $scope.checkInputNode = function (event){
+              console.log(event.keyCode);
+                if(event.keyCode === 13){
+                    console.log($scope.newNodeText);
+                }
+
+            };
+        }).directive('myNode', function (){
+            return {
+                restrict: 'ACE',
+                transclude: true,
+                templateUrl:'_node.html',
+                scope: {
+                    nodeName: '='
+                },
+                link:function(scope, element, attrs){
+                    console.log('here', element[0]);
+                    element.bind("keypress", function (event) {
+                        if(event.keyCode === 13) {
+                            console.log(element[0].value);
+                            scope.nodeName = element[0].value;
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+        <div id='mainController' ng-controller="MyController">
+            <h1>Tree Structure - Personal Project</h1>
+            <div id="menu">
+                <button class = 'btn btn-default'>Export to JSON</button>
+                <button class = 'btn btn-default'>Save Local</button>
+                <button class = 'btn btn-default'>Load from Local</button>
+                <button class = 'btn btn-default'>Load from JSON</button>
+            </div>
+            <div id="instructions">Use enter to create the nodes. Save to local after you are done. you may use Export to JSON for the rest</div>
+            <div id="content">
+                <div class="checkbox">
+                    <label>
+                        <input ng-model="showInputBoxes" type="checkbox"> Show Input Boxes
+                    </label>
+                </div>
+                <div id="nodeTree">
+                    <div>Root Node <span ng-click="addNewNode()" ng-hide="addNode">[+]</span><span ng-hide="collapseNode" ng-click="collapseNodes()">[-]</span></div>
+                    <input id='newNodeInput' type="text" my-node name="input" ng-hide="hideInputBox">
+                </div>
+            </div>
+        </div>
+</body>
+</html>
