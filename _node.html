@@ -1,2 +1,4 @@
-<div>{{nodeName}}<span ng-click="addNewNode()" ng-hide="addNode">[+]</span><span ng-hide="collapseNode" ng-click="collapseNodes()">[-]</span></div>
-<input id='newNodeInput' type="text" name="input" my-node ng-hide="hideInputBoxes">
+<li>
+    <div ng-click="expand()">{{nodeName}} <span ng-hide="addNode">[+]</span><span ng-hide="!addNode">[-]</span></div>
+    <input id='newNodeInput' type="text" name="input" ng-hide="hideInputBox" ng-model="nodeName" ng-keypress="watchInput($event, nodeName)">
+</li>

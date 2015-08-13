@@ -1,0 +1,16 @@
+#instructions{
+    background-color: lightgrey;
+    padding: 10px;
+    margin: 10px 0px;
+    font-style: oblique
+}
+#mainController{
+    padding: 10px;
+}
+#nodeTree{
+    border-top: solid gray;
+    padding: 15px;
+}
+#newNodeInput{
+    margin-left: 25px;
+}
